@@ -3,10 +3,46 @@
   <head>
     <meta charset="utf-8" />
     <title>Takie O</title>
-    <!-- <link rel="stylesheet" href="styles.css" /> -->
+    <link rel="stylesheet" href="styles.css" />
     <script type="module" src="main.js"></script>
   </head>
   <body>
-    <h1>Hello, World!</h1>
+    <main class="editor">
+      <div class="editor-output">
+        <p class="tag">Output</p>
+        <table>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Azor</td>
+            <td>100</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Bonifacy</td>
+            <td>250</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Szarik</td>
+            <td>999</td>
+          </tr>
+        </table>
+      </div>
+      <div class="editor-input">
+        <label for="editor-input-text">
+          <p class="tag">Input</p>
+        </label>
+        <textarea
+          id="editor-input-text"
+          name="input"
+          placeholder="SELECT * FROM ..."
+        ></textarea>
+      </div>
+    </main>
   </body>
 </html>
