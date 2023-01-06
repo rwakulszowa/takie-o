@@ -1,4 +1,5 @@
 import initSqlJs from "sql.js";
+import { debounce } from "lodash";
 import { Table } from "../../lib";
 import data from "./iris.json";
 
@@ -39,7 +40,10 @@ function runQuery(query) {
   return results.map(({ columns, values }) => new Table(columns, values));
 }
 
-document.getElementById("editor-input-text").oninput = refreshOutput;
+document.getElementById("editor-input-text").oninput = debounce(
+  refreshOutput,
+  250
+);
 
 function refreshOutput() {
   const query = document.getElementById("editor-input-text").value;

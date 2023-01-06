@@ -2,12 +2,14 @@ lockfileVersion: 5.4
 
 specifiers:
   buffer: ^5.7.1
+  lodash: ^4.17.21
   parcel: ^2.8.2
   path-browserify: ^1.0.1
   process: ^0.11.10
   sql.js: ^1.8.0
 
 dependencies:
+  lodash: 4.17.21
   sql.js: 1.8.0
 
 devDependencies:
@@ -1321,6 +1323,10 @@ packages:
       '@lmdb/lmdb-linux-x64': 2.5.2
       '@lmdb/lmdb-win32-x64': 2.5.2
     dev: true
+
+  /lodash/4.17.21:
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: false
 
   /mdn-data/2.0.14:
     resolution: {integrity: sha512-dn6wd0uw5GsdswPFfsgMp5NSB0/aDe6fK94YJV/AJDYXL6HVLWBsxeq7js7Ad+mU2K9LAlwpk6kN2D5mwCPVow==}
