@@ -34,7 +34,18 @@ body {
 
 .editor-output {
   grid-area: output;
+
+  /* Hide overflow. The content itself will be scrollable. */
+  overflow: hidden;
+
+  /* Flex to make the content take just the available space into account. */
+  display: flex;
+  flex-direction: column;
+}
+
+#editor-output-content {
   overflow: auto;
+  flex: 1;
 }
 
 .tag {
