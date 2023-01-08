@@ -47,9 +47,16 @@ document.getElementById("editor-input-text").oninput = debounce(
 
 function refreshOutput() {
   const query = document.getElementById("editor-input-text").value;
-  const results = runQuery(query);
-  const output = document.getElementById("editor-output-content");
-  output.innerHTML = results.map(renderTable).join("\n");
+  const outputContent = document.getElementById("editor-output-content");
+  const outputPopup = document.getElementById("editor-output-popup");
+  try {
+    const results = runQuery(query);
+    delete outputPopup.dataset.up;
+    outputContent.innerHTML = results.map(renderTable).join("\n");
+  } catch (e) {
+    outputPopup.dataset.up = true;
+    outputPopup.innerHTML = e.message;
+  }
 }
 
 function renderTable(table) {

@@ -34,6 +34,7 @@ body {
 
 .editor-output {
   grid-area: output;
+  position: relative;
 
   /* Hide overflow. The content itself will be scrollable. */
   overflow: hidden;
@@ -46,6 +47,27 @@ body {
 #editor-output-content {
   overflow: auto;
   flex: 1;
+}
+
+#editor-output-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+
+  visibility: hidden;
+
+  border-radius: 0.5em;
+  padding: 2em;
+
+  color: white;
+  background: #333;
+}
+
+#editor-output-popup[data-up] {
+  visibility: visible;
 }
 
 .tag {
