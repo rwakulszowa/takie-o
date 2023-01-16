@@ -15,6 +15,7 @@ async function initSql() {
   // Create the iris database
   const createDbSql = `
     CREATE TABLE iris (id int, sepal_length float, sepal_width float, petal_length float, petal_width float, species char);
+    CREATE TABLE likes (irisId int, likeValue int);
   `;
   db.run(createDbSql);
 
@@ -24,7 +25,27 @@ async function initSql() {
         `INSERT INTO iris VALUES (${i}, ${d.sepal_length}, ${d.sepal_width}, ${d.petal_length}, ${d.petal_width}, "${d.species}");`
     )
     .join("\n");
+
+  const likesData = [
+    [1, 4],
+    [2, 3],
+    [2, 5],
+    [2, 3],
+    [3, 6],
+    [5, 7],
+    [55, 13],
+    [113, 2],
+    [113, 5],
+    [117, 14],
+  ];
+  const insertIrisLikesSql = likesData
+    .map(
+      ([irisId, likeValue]) =>
+        `INSERT INTO likes VALUES (${irisId}, ${likeValue});`
+    )
+    .join("\n");
   db.run(insertIrisSql);
+  db.run(insertIrisLikesSql);
 
   return db;
 }
