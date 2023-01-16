@@ -14,14 +14,14 @@ async function initSql() {
 
   // Create the iris database
   const createDbSql = `
-    CREATE TABLE iris (sepal_length float, sepal_width float, petal_length float, petal_width float, species char);
+    CREATE TABLE iris (id int, sepal_length float, sepal_width float, petal_length float, petal_width float, species char);
   `;
   db.run(createDbSql);
 
   const insertIrisSql = data
     .map(
-      (d) =>
-        `INSERT INTO iris VALUES (${d.sepal_length}, ${d.sepal_width}, ${d.petal_length}, ${d.petal_width}, "${d.species}");`
+      (d, i) =>
+        `INSERT INTO iris VALUES (${i}, ${d.sepal_length}, ${d.sepal_width}, ${d.petal_length}, ${d.petal_width}, "${d.species}");`
     )
     .join("\n");
   db.run(insertIrisSql);
