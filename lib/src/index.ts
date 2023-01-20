@@ -1,1 +1,1 @@
-export { Table } from './database';
+export { DataTable, DbTable, DbType } from './database';

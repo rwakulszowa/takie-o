@@ -1,32 +1,32 @@
 import initSqlJs from "sql.js";
 import { debounce } from "lodash";
-import { Table } from "../../lib";
-import data from "./iris.json";
+import { DataTable, DbTable, DbType } from "../../lib";
+import iris from "./iris.json";
 
 let database = null;
 
-async function initSql() {
-  const sql = await initSqlJs({
-    locateFile: (file) => `https://sql.js.org/dist/${file}`,
-  });
+const irisDb = new DbTable("iris", [
+  { name: "id", type: DbType.Int },
+  { name: "sepal_length", type: DbType.Float },
+  { name: "sepal_width", type: DbType.Float },
+  { name: "petal_length", type: DbType.Float },
+  { name: "petal_width", type: DbType.Float },
+  { name: "species", type: DbType.String },
+]);
 
-  const db = new sql.Database();
+const irisDbValues = new DataTable(
+  ["id", ...Object.keys(iris[0])],
+  iris.map((row, i) => [i, ...Object.values(row)])
+);
 
-  // Create the iris database
-  const createDbSql = `
-    CREATE TABLE iris (id int, sepal_length float, sepal_width float, petal_length float, petal_width float, species char);
-    CREATE TABLE likes (irisId int, likeValue int);
-  `;
-  db.run(createDbSql);
+const irisLikesDb = new DbTable("likes", [
+  { name: "irisId", type: DbType.Int },
+  { name: "likeValue", type: DbType.Int },
+]);
 
-  const insertIrisSql = data
-    .map(
-      (d, i) =>
-        `INSERT INTO iris VALUES (${i}, ${d.sepal_length}, ${d.sepal_width}, ${d.petal_length}, ${d.petal_width}, "${d.species}");`
-    )
-    .join("\n");
-
-  const likesData = [
+const irisLikesValues = new DataTable(
+  ["irisId", "likeValue"],
+  [
     [1, 4],
     [2, 3],
     [2, 5],
@@ -37,15 +37,29 @@ async function initSql() {
     [113, 2],
     [113, 5],
     [117, 14],
-  ];
-  const insertIrisLikesSql = likesData
-    .map(
-      ([irisId, likeValue]) =>
-        `INSERT INTO likes VALUES (${irisId}, ${likeValue});`
-    )
+  ]
+);
+
+async function initSql() {
+  const sql = await initSqlJs({
+    locateFile: (file) => `https://sql.js.org/dist/${file}`,
+  });
+
+  const db = new sql.Database();
+
+  const createDbSql = [irisDb, irisLikesDb]
+    .map((dbTable) => dbTable.createTableSql())
     .join("\n");
-  db.run(insertIrisSql);
-  db.run(insertIrisLikesSql);
+
+  const insertValuesSql = [
+    { db: irisDb, values: irisDbValues },
+    { db: irisLikesDb, values: irisLikesValues },
+  ]
+    .map(({ db, values }) => db.insertValuesSql(values))
+    .join("\n");
+
+  db.run(createDbSql);
+  db.run(insertValuesSql);
 
   return db;
 }
@@ -58,7 +72,7 @@ initSql().then((db) => {
 
 function runQuery(query) {
   const results = database.exec(query);
-  return results.map(({ columns, values }) => new Table(columns, values));
+  return results.map(({ columns, values }) => new DataTable(columns, values));
 }
 
 document.getElementById("editor-input-text").oninput = debounce(
