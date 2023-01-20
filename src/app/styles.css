@@ -1,0 +1,107 @@
+/* https://css-tricks.com/box-sizing/ */
+html {
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  overflow: hidden;
+}
+
+.editor {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-areas:
+    "output"
+    "input";
+  grid-auto-rows: 1fr;
+  grid-gap: 0.5em;
+}
+
+.editor-input {
+  grid-area: input;
+}
+
+.editor-output {
+  grid-area: output;
+  position: relative;
+
+  /* Hide overflow. The content itself will be scrollable. */
+  overflow: hidden;
+
+  /* Flex to make the content take just the available space into account. */
+  display: flex;
+  flex-direction: column;
+}
+
+#editor-output-content {
+  overflow: auto;
+  flex: 1;
+}
+
+#editor-output-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+
+  visibility: hidden;
+
+  border-radius: 0.5em;
+  padding: 2em;
+
+  color: white;
+  background: #333;
+}
+
+#editor-output-popup[data-up] {
+  visibility: visible;
+}
+
+.tag {
+  font-size: 0.8em;
+  font-weight: 200;
+  margin: 0.2em;
+}
+
+.editor-input {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.editor-input > textarea {
+  font-family: "Monaco", sans-serif;
+  resize: none;
+  width: 100%;
+  /* Fill the remaining space. */
+  flex-grow: 1;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.editor-output th,
+td {
+  padding: 0.5em;
+  text-align: left;
+}

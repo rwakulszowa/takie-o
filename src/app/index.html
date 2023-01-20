@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, interactive-widget=resizes-visual"
+    />
+    <title>Takie O</title>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="../../assets/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../../assets/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="../../assets/favicon-16x16.png"
+    />
+    <link rel="manifest" href="../../assets/site.webmanifest" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="main.js"></script>
+  </head>
+  <body>
+    <main class="editor">
+      <div class="editor-output">
+        <p class="tag">Output</p>
+        <div id="editor-output-content"></div>
+        <div id="editor-output-popup">Message</div>
+      </div>
+      <div class="editor-input">
+        <label for="editor-input-text">
+          <p class="tag">Input</p>
+        </label>
+        <textarea
+          id="editor-input-text"
+          name="input"
+          placeholder="SELECT * FROM ..."
+        >
+select * from sqlite_schema where type="table";</textarea
+        >
+      </div>
+    </main>
+  </body>
+</html>
