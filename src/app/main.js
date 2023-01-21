@@ -1,8 +1,8 @@
 import initSqlJs from "sql.js";
 import { debounce } from "lodash";
-import { DataTable, DbTable, DbType } from "../../lib";
-import iris from "./iris.json";
-import country from "bundle-text:../data/Country.csv";
+import { DataTable, DbTable, DbType } from "../lib";
+import iris from "../../data/iris.json";
+import country from "bundle-text:../../data/Country.csv";
 
 let database = null;
 

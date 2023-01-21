@@ -48,12 +48,12 @@ export class DbTable {
     const cols = this.columns.map((c) => c.name);
 
     const processValue = (value, index) => {
-        const dbType = this.columns[index].type;
-        if (dbType === DbType.String) {
-          return `'${value}'`;
-        }
-        return value;
-    }
+      const dbType = this.columns[index].type;
+      if (dbType === DbType.String) {
+        return `'${value}'`;
+      }
+      return value;
+    };
 
     if (!_.isEqual(values.columns, cols)) {
       throw new Error(
@@ -62,7 +62,12 @@ export class DbTable {
     }
 
     return values.rows
-      .map((row) => `INSERT INTO ${this.name} VALUES (${row.map(processValue).join(", ")});`)
+      .map(
+        (row) =>
+          `INSERT INTO ${this.name} VALUES (${row
+            .map(processValue)
+            .join(", ")});`
+      )
       .join("\n ");
   }
 }

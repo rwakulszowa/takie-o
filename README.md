@@ -12,3 +12,8 @@ The code is separated into two modules:
 Separating the two should make it a bit easier to maintain the code. `lib/`
 uses different build and testing tools than `app/`. There's no point using a UI
 testing framework to test plain functions.
+
+TODO:
+
+- read about pnpm workspaces + parcel
+- load the SQLite DB, instead of parsing CSVs

@@ -29,8 +29,6 @@ jobs:
     needs: check
     runs-on: ubuntu-latest
     defaults:
-      run:
-        working-directory: ./app
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -43,15 +41,14 @@ jobs:
         with:
           node-version: 18
           cache: pnpm
-          cache-dependency-path: ./app/pnpm-lock.yaml
       - name: Install dependencies
         run: pnpm install
       - name: Build the app
-        run: pnpm parcel build ./src/index.html --public-url=./
+        run: pnpm parcel build ./src/app/index.html --public-url=./
       - name: Store build artifacts
         uses: actions/cache@v3
         with:
-          path: app/dist/
+          path: dist/
           key: ${{ github.run_id }}
   deploy:
     needs: build
@@ -63,14 +60,14 @@ jobs:
       - name: Load artifacts
         uses: actions/cache@v3
         with:
-          path: app/dist/
+          path: dist/
           key: ${{ github.run_id }}
       - name: Setup Pages
         uses: actions/configure-pages@v2
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ./app/dist/
+          path: ./dist/
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
