@@ -75,6 +75,8 @@ const countryDb = new DbTable("country", [
   { name: "LatestWaterWithdrawalData", type: DbType.String },
 ]);
 
+const countryValues = DataTable.fromCsv(country);
+
 async function initSql() {
   const sql = await initSqlJs({
     locateFile: (file) => `https://sql.js.org/dist/${file}`,
@@ -82,17 +84,18 @@ async function initSql() {
 
   const db = new sql.Database();
 
-  const createDbSql = [irisDb, irisLikesDb]
+  const createDbSql = [irisDb, irisLikesDb, countryDb]
     .map((dbTable) => dbTable.createTableSql())
     .join("\n");
 
   const insertValuesSql = [
-    { db: irisDb, values: irisDbValues },
-    { db: irisLikesDb, values: irisLikesValues },
+    // { db: irisDb, values: irisDbValues },
+    // { db: irisLikesDb, values: irisLikesValues },
+    { db: countryDb, values: countryValues },
   ]
     .map(({ db, values }) => db.insertValuesSql(values))
     .join("\n");
-
+  console.log(insertValuesSql);
   db.run(createDbSql);
   db.run(insertValuesSql);
 

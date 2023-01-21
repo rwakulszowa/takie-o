@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { parse } from "csv-parse/lib/sync";
 
 /**
  * Database value types.
@@ -50,7 +51,7 @@ export class DbTable {
     const processValue = (value, index) => {
       const dbType = this.columns[index].type;
       if (dbType === DbType.String) {
-        return `'${value}'`;
+        return `"${value}"`;
       }
       return value;
     };
@@ -82,5 +83,11 @@ export class DataTable {
   constructor(columns: Array<string>, rows: Array<Array<string>>) {
     this.columns = columns;
     this.rows = rows;
+  }
+
+  static fromCsv(input: string): DataTable {
+    const records = parse(input);
+    const [headers, ...rows] = records;
+    return new DataTable(headers, rows.slice(0, 100));
   }
 }
