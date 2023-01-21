@@ -84,20 +84,18 @@ async function initSql() {
 
   const db = new sql.Database();
 
-  const createDbSql = [irisDb, irisLikesDb, countryDb]
-    .map((dbTable) => dbTable.createTableSql())
-    .join("\n");
+  const createDbSql = [irisDb, irisLikesDb, countryDb].map((dbTable) =>
+    dbTable.createTableSql()
+  );
 
   const insertValuesSql = [
-    // { db: irisDb, values: irisDbValues },
-    // { db: irisLikesDb, values: irisLikesValues },
+    { db: irisDb, values: irisDbValues },
+    { db: irisLikesDb, values: irisLikesValues },
     { db: countryDb, values: countryValues },
-  ]
-    .map(({ db, values }) => db.insertValuesSql(values))
-    .join("\n");
-  console.log(insertValuesSql);
-  db.run(createDbSql);
-  db.run(insertValuesSql);
+  ].map(({ db, values }) => db.insertValuesSql(values));
+
+  createDbSql.forEach((sql) => db.run(sql));
+  insertValuesSql.forEach((sql) => db.run(sql));
 
   return db;
 }
