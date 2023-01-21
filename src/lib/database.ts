@@ -90,4 +90,10 @@ export class DataTable {
     const [headers, ...rows] = records;
     return new DataTable(headers, rows.slice(0, 100));
   }
+
+  static fromJson(input: Array<object>): DataTable {
+    const columns = Object.keys(input[0]);
+    const rows = input.map(Object.values);
+    return new DataTable(columns, rows.slice(0, 100));
+  }
 }

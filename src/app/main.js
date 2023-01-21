@@ -2,7 +2,8 @@ import initSqlJs from "sql.js";
 import { debounce } from "lodash";
 import { DataTable, DbTable, DbType } from "../lib";
 import iris from "../../data/iris.json";
-import country from "bundle-text:../../data/Country.csv";
+// Temporary - loading CSV doesn't work :/
+import country from "../../data/Country.json";
 
 let database = null;
 
@@ -75,7 +76,7 @@ const countryDb = new DbTable("country", [
   { name: "LatestWaterWithdrawalData", type: DbType.String },
 ]);
 
-const countryValues = DataTable.fromCsv(country);
+const countryValues = DataTable.fromJson(country);
 
 async function initSql() {
   const sql = await initSqlJs({
