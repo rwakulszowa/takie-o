@@ -2,6 +2,7 @@ import initSqlJs from "sql.js";
 import { debounce } from "lodash";
 import { DataTable, DbTable, DbType } from "../../lib";
 import iris from "./iris.json";
+import country from "bundle-text:../data/Country.csv";
 
 let database = null;
 
@@ -39,6 +40,40 @@ const irisLikesValues = new DataTable(
     [117, 14],
   ]
 );
+
+const countryDb = new DbTable("country", [
+  { name: "CountryCode", type: DbType.String },
+  { name: "ShortName", type: DbType.String },
+  { name: "TableName", type: DbType.String },
+  { name: "LongName", type: DbType.String },
+  { name: "Alpha2Code", type: DbType.String },
+  { name: "CurrencyUnit", type: DbType.String },
+  { name: "SpecialNotes", type: DbType.String },
+  { name: "Region", type: DbType.String },
+  { name: "IncomeGroup", type: DbType.String },
+  { name: "Wb2Code", type: DbType.String },
+  { name: "NationalAccountsBaseYear", type: DbType.String },
+  { name: "NationalAccountsReferenceYear", type: DbType.String },
+  { name: "SnaPriceValuation", type: DbType.String },
+  { name: "LendingCategory", type: DbType.String },
+  { name: "OtherGroups", type: DbType.String },
+  { name: "SystemOfNationalAccounts", type: DbType.String },
+  { name: "AlternativeConversionFactor", type: DbType.String },
+  { name: "PppSurveyYear", type: DbType.String },
+  { name: "BalanceOfPaymentsManualInUse", type: DbType.String },
+  { name: "ExternalDebtReportingStatus", type: DbType.String },
+  { name: "SystemOfTrade", type: DbType.String },
+  { name: "GovernmentAccountingConcept", type: DbType.String },
+  { name: "ImfDataDisseminationStandard", type: DbType.String },
+  { name: "LatestPopulationCensus", type: DbType.String },
+  { name: "LatestHouseholdSurvey", type: DbType.String },
+  { name: "SourceOfMostRecentIncomeAndExpenditureData", type: DbType.String },
+  { name: "VitalRegistrationComplete", type: DbType.String },
+  { name: "LatestAgriculturalCensus", type: DbType.String },
+  { name: "LatestIndustrialData", type: DbType.String },
+  { name: "LatestTradeData", type: DbType.String },
+  { name: "LatestWaterWithdrawalData", type: DbType.String },
+]);
 
 async function initSql() {
   const sql = await initSqlJs({
