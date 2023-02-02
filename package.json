@@ -11,7 +11,9 @@
   "license": "ISC",
   "devDependencies": {
     "@parcel/core": "^2.8.3",
+    "@parcel/packager-raw-url": "^2.8.3",
     "@parcel/transformer-inline-string": "^2.8.3",
+    "@parcel/transformer-webmanifest": "^2.8.3",
     "buffer": "^5.7.1",
     "parcel": "^2.8.3",
     "path-browserify": "^1.0.1",
