@@ -47,7 +47,7 @@ function runQuery(query) {
 
 document.getElementById("editor-input-text").oninput = debounce(
   refreshOutput,
-  250
+  1000
 );
 
 function refreshOutput() {
