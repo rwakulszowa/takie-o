@@ -1,5 +1,4 @@
 import initSqlJs from "sql.js";
-import { debounce } from "lodash";
 import { DataTable } from "../lib";
 import worldBankData from "url:../../data/world-development-indicators.sqlite";
 
@@ -45,10 +44,7 @@ function runQuery(query) {
   return results.map(({ columns, values }) => new DataTable(columns, values));
 }
 
-document.getElementById("editor-input-text").oninput = debounce(
-  refreshOutput,
-  1000
-);
+document.getElementById("editor-input-execute").onclick = refreshOutput;
 
 function refreshOutput() {
   const query = document.getElementById("editor-input-text").value;
