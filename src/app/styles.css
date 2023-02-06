@@ -82,8 +82,23 @@ body {
   height: 100%;
 }
 
-.editor-input > textarea {
-  font-family: "Monaco", sans-serif;
+.editor-input-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+#editor-input-execute {
+  padding: 0.2em;
+  padding-left: 1em;
+  padding-right: 1em;
+
+  width: 5em;
+
+  background: url("../../assets/icons/send.svg") center no-repeat;
+}
+
+#editor-input-text {
+  font-family: "Monaco", "Courier", monospace;
   resize: none;
   width: 100%;
   /* Fill the remaining space. */
