@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "isolatedModules": true,
+    "target": "ES2022"
+  }
+}

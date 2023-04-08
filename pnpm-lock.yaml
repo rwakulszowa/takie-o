@@ -14,11 +14,21 @@ importers:
         specifier: workspace:^
         version: link:../lib
     devDependencies:
+      '@parcel/config-default':
+        specifier: ^2.8.3
+        version: 2.8.3(@parcel/core@2.8.3)
+      '@parcel/transformer-typescript-tsc':
+        specifier: ^2.8.3
+        version: 2.8.3(@parcel/core@2.8.3)(typescript@5.0.4)
       parcel:
         specifier: ^2.8.3
         version: 2.8.3
 
-  packages/lib: {}
+  packages/lib:
+    dependencies:
+      lit:
+        specifier: ^2.7.2
+        version: 2.7.2
 
 packages:
 
@@ -93,6 +103,16 @@ packages:
     dependencies:
       '@lezer/common': 0.15.12
     dev: true
+
+  /@lit-labs/ssr-dom-shim@1.1.0:
+    resolution: {integrity: sha512-92uQ5ARf7UXYrzaFcAX3T2rTvaS9Z1//ukV+DqjACM4c8s0ZBQd7ayJU5Dh2AFLD/Ayuyz4uMmxQec8q3U4Ong==}
+    dev: false
+
+  /@lit/reactive-element@1.6.1:
+    resolution: {integrity: sha512-va15kYZr7KZNNPZdxONGQzpUr+4sxVu7V/VG7a8mRfPPXUyhEYj5RzXCQmGrlP3tAh0L3HHm5AjBMFYRqlM9SA==}
+    dependencies:
+      '@lit-labs/ssr-dom-shim': 1.1.0
+    dev: false
 
   /@lmdb/lmdb-darwin-arm64@2.5.2:
     resolution: {integrity: sha512-+F8ioQIUN68B4UFiIBYu0QQvgb9FmlKw2ctQMSBfW2QBrZIxz9vD9jCGqTCPqZBRbPHAS/vG1zSXnKqnS2ch/A==}
@@ -805,6 +825,30 @@ packages:
       - '@parcel/core'
     dev: true
 
+  /@parcel/transformer-typescript-tsc@2.8.3(@parcel/core@2.8.3)(typescript@5.0.4):
+    resolution: {integrity: sha512-hig99OrUJhXuGLN+Nxisvfkj3cggH6GM1nDcS3KWEGoD+UkxLaXkd32Od/mvJ4nUN/ThbAPqwIljmgkgPlYzbw==}
+    engines: {node: '>= 12.0.0', parcel: ^2.8.3}
+    peerDependencies:
+      typescript: '>=3.0.0'
+    dependencies:
+      '@parcel/plugin': 2.8.3(@parcel/core@2.8.3)
+      '@parcel/source-map': 2.1.1
+      '@parcel/ts-utils': 2.8.3(typescript@5.0.4)
+      typescript: 5.0.4
+    transitivePeerDependencies:
+      - '@parcel/core'
+    dev: true
+
+  /@parcel/ts-utils@2.8.3(typescript@5.0.4):
+    resolution: {integrity: sha512-4HMt9B9LF2pDFvSKGImho48tlCvCUl7ly1ZMXvQdmEq2i0yoS81tDsmxX3yly/RVUVeUCGAj1JRuuy1lw5zw1A==}
+    engines: {node: '>= 12.0.0'}
+    peerDependencies:
+      typescript: '>=3.0.0'
+    dependencies:
+      nullthrows: 1.1.1
+      typescript: 5.0.4
+    dev: true
+
   /@parcel/types@2.8.3(@parcel/core@2.8.3):
     resolution: {integrity: sha512-FECA1FB7+0UpITKU0D6TgGBpGxYpVSMNEENZbSJxFSajNy3wrko+zwBKQmFOLOiPcEtnGikxNs+jkFWbPlUAtw==}
     dependencies:
@@ -872,6 +916,10 @@ packages:
   /@types/parse-json@4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
     dev: true
+
+  /@types/trusted-types@2.0.3:
+    resolution: {integrity: sha512-NfQ4gyz38SL8sDNrSixxU2Os1a5xcdFxipAFxYEuLUlvU2uDwS4NUpsImcf1//SlWItCVMMLiylsxbmNMToV/g==}
+    dev: false
 
   /abortcontroller-polyfill@1.7.5:
     resolution: {integrity: sha512-JMJ5soJWP18htbbxJjG7bG6yuI6pRhgJ0scHHTfkUjf6wjP912xZWvM+A4sJK3gqd9E8fcPbDnOefbA9Th/FIQ==}
@@ -1319,6 +1367,28 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
+  /lit-element@3.3.1:
+    resolution: {integrity: sha512-Gl+2409uXWbf7n6cCl7Kzasm7zjT9xmdwi2BhLNi70sRKAgRkqueDu5mSIH3hPYMM0/vqBCdPXod3NbGkRA2ww==}
+    dependencies:
+      '@lit-labs/ssr-dom-shim': 1.1.0
+      '@lit/reactive-element': 1.6.1
+      lit-html: 2.7.2
+    dev: false
+
+  /lit-html@2.7.2:
+    resolution: {integrity: sha512-ZJCfKlA2XELu5tn7XuzOziGFGvf1SeQm+ngLWoJ8bXtSkRrrR3ms6SWy+gsdxeYwySLij5xAhdd2C3EX0ftxdQ==}
+    dependencies:
+      '@types/trusted-types': 2.0.3
+    dev: false
+
+  /lit@2.7.2:
+    resolution: {integrity: sha512-9QnZmG5mIKPRja96cpndMclLSi0Qrz2BXD6EbqNqCKMMjOWVm/BwAeXufFk2jqFsNmY07HOzU8X+8aTSVt3yrA==}
+    dependencies:
+      '@lit/reactive-element': 1.6.1
+      lit-element: 3.3.1
+      lit-html: 2.7.2
+    dev: false
+
   /lmdb@2.5.2:
     resolution: {integrity: sha512-V5V5Xa2Hp9i2XsbDALkBTeHXnBXh/lEmk9p22zdr7jtuOIY9TGhjK6vAvTpOOx9IKU4hJkRWZxn/HsvR1ELLtA==}
     requiresBuild: true
@@ -1626,6 +1696,12 @@ packages:
   /type-fest@0.20.2:
     resolution: {integrity: sha512-Ne+eE4r0/iWnpAxD852z3A+N0Bt5RN//NjJwRd2VFHEmrywxf5vsZlh4R6lixl6B+wz/8d+maTSAkN1FIkI3LQ==}
     engines: {node: '>=10'}
+    dev: true
+
+  /typescript@5.0.4:
+    resolution: {integrity: sha512-cW9T5W9xY37cc+jfEnaUvX91foxtHkza3Nw3wkoF4sSlKn0MONdkdEndig/qPBWXNkmplh3NzayQzCiHM4/hqw==}
+    engines: {node: '>=12.20'}
+    hasBin: true
     dev: true
 
   /update-browserslist-db@1.0.10(browserslist@4.21.5):

@@ -1,3 +1,1 @@
-import { foo } from "lib";
-
-console.log(foo(2));
+export { AppLayout } from "lib/components/app-layout";
