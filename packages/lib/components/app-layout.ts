@@ -7,7 +7,7 @@ export class AppLayout extends LitElement {
 
   render() {
     return html`
-      <p>${this.title}</p>
+      <div class="navbar bg-base-100">${this.title}</div>
       <main><slot></slot></main>
     `;
   }
