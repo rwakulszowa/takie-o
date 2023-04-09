@@ -7,6 +7,14 @@
     <link href="./index.css" rel="stylesheet" />
   </head>
   <body>
-    <app-layout><span class="text-3xl">TODO</span></app-layout>
+    <app-layout>
+      <app-window>
+        <p slot="main">Some long text.</p>
+        <div slot="controls">
+          <span>Fafarafa</span>
+          <img src="icons/play.svg" alt="play" />
+        </div>
+      </app-window>
+    </app-layout>
   </body>
 </html>
