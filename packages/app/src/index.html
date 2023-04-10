@@ -15,6 +15,7 @@
         <div slot="left" class="full app-window-wrapper bg-base-100">
           <app-window>
             <textarea
+              id="editor-input"
               slot="main"
               placeholder="select * from ..."
               class="border-none outline-none resize-none full bg-base-100 text-base-content"
@@ -27,6 +28,7 @@
                 title="Evaluate the input."
                 src="icons/play.svg"
                 alt="play"
+                onclick="evaluateInput()"
               />
             </div>
           </app-window>
@@ -35,7 +37,11 @@
         <!-- Output. -->
         <div slot="right" class="full app-window-wrapper border-none">
           <app-window>
-            <result-table slot="main" class="w-full"></result-table>
+            <result-table
+              id="result-table"
+              slot="main"
+              class="w-full"
+            ></result-table>
             <div
               slot="controls"
               class="flex flex-col items-center text-base-content full"

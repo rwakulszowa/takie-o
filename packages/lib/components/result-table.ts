@@ -3,10 +3,7 @@ import { property } from "lit/decorators.js";
 import { repeat } from "lit/directives/repeat.js";
 
 export class ResultTable extends LitElement {
-  @property() data: Array<{ [key: string]: string | number }> = [
-    { a: 1, b: 42 },
-    { a: 2, b: 33 },
-  ];
+  @property() rows: Array<{ [key: string]: string | number }> = [];
 
   /**
    * Disable shadow DOM.
@@ -17,11 +14,7 @@ export class ResultTable extends LitElement {
   }
 
   get headers(): Array<string> {
-    return this.data.length ? Object.keys(this.data[0]) : [];
-  }
-
-  get rows(): Array<Array<string | number>> {
-    return this.data.map(Object.values);
+    return this.rows.length ? Object.keys(this.rows[0]) : [];
   }
 
   render() {
@@ -39,7 +32,7 @@ export class ResultTable extends LitElement {
               html`
                 <tr>
                   ${repeat(
-                    row,
+                    this.rows.map(Object.values),
                     (datum: string | number) => html`<td>${datum}</td>`
                   )}
                 </tr>
