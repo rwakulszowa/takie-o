@@ -10,21 +10,41 @@
   <body class="h-screen flex flex-col w-full bg-primary text-primary-content">
     <nav class="navbar flex-none text-xl">Takie O.</nav>
     <main class="flex-1 w-full p-4">
-      <div class="full app-window-wrapper bg-base-100">
-        <app-window>
-          <textarea
-            slot="main"
-            placeholder="select * from ..."
-            class="border-none outline-none resize-none full bg-base-100 text-base-content"
-          ></textarea>
-          <div
-            slot="controls"
-            class="flex flex-col items-center bg-base-100 text-base-content full"
-          >
-            <img title="Evaluate the input." src="icons/play.svg" alt="play" />
-          </div>
-        </app-window>
-      </div>
+      <app-window-container>
+        <!-- Input. -->
+        <div slot="left" class="full app-window-wrapper bg-base-100">
+          <app-window>
+            <textarea
+              slot="main"
+              placeholder="select * from ..."
+              class="border-none outline-none resize-none full bg-base-100 text-base-content"
+            ></textarea>
+            <div
+              slot="controls"
+              class="flex flex-col items-center bg-base-100 text-base-content full"
+            >
+              <img
+                title="Evaluate the input."
+                src="icons/play.svg"
+                alt="play"
+              />
+            </div>
+          </app-window>
+        </div>
+
+        <!-- Output. -->
+        <div slot="right" class="full app-window-wrapper border-none">
+          <app-window>
+            <div slot="main" class="full">Output.</div>
+            <div
+              slot="controls"
+              class="flex flex-col items-center text-base-content full"
+            >
+              <!-- TODO: different visualization variants -->
+            </div>
+          </app-window>
+        </div>
+      </app-window-container>
     </main>
   </body>
 </html>
