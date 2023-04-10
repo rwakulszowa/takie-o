@@ -1,25 +1,30 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dracula">
+<html lang="en" data-theme="lofi">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Takie o.</title>
     <script type="module" src="app.ts"></script>
     <link href="./index.css" rel="stylesheet" />
   </head>
-  <body class="flex flex-col">
-    <nav class="navbar bg-base-100">Takie O.</nav>
-    <main>
-      <app-window>
-        <textarea
-          slot="main"
-          placeholder="select * from ..."
-          class="textarea textarea-primary textarea-lg w-full h-full"
-        ></textarea>
-        <div slot="controls" class="flex flex-col items-center">
-          <span class="text-xs">Some control</span>
-          <img src="icons/play.svg" alt="play" />
-        </div>
-      </app-window>
+  <body class="h-screen flex flex-col w-full bg-primary text-primary-content">
+    <nav class="navbar flex-none text-xl">Takie O.</nav>
+    <main class="flex-1 w-full p-4">
+      <div class="full app-window-wrapper bg-base-100">
+        <app-window>
+          <textarea
+            slot="main"
+            placeholder="select * from ..."
+            class="border-none outline-none resize-none full bg-base-100 text-base-content"
+          ></textarea>
+          <div
+            slot="controls"
+            class="flex flex-col items-center bg-base-100 text-base-content full"
+          >
+            <img title="Evaluate the input." src="icons/play.svg" alt="play" />
+          </div>
+        </app-window>
+      </div>
     </main>
   </body>
 </html>
