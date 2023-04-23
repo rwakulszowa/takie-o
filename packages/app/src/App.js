@@ -1,10 +1,28 @@
 import { calc } from "../../lib";
+import React, { useState, useEffect } from "react";
+import initSqlJs from "sql.js";
+import { Editor } from "./Editor";
+
+import sqlWasm from "url:sql.js/dist/sql-wasm.wasm";
 
 export function App() {
-  return (
-    <div>
-      <h1>Hello world!</h1>
-      <p>2+2={calc("2+2")}</p>
-    </div>
-  );
+  const [db, setDb] = useState(null);
+  const [error, setError] = useState(null);
+
+  async function initSql() {
+    try {
+      const SQL = await initSqlJs({ locateFile: () => sqlWasm });
+      setDb(new SQL.Database());
+    } catch (err) {
+      setError(err);
+    }
+  }
+
+  useEffect(() => {
+    initSql();
+  }, []);
+
+  if (error) return <pre>{error.toString()}</pre>;
+  else if (!db) return <pre>Loading...</pre>;
+  else return <Editor db={db} />;
 }
