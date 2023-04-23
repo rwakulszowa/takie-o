@@ -1,2 +1,3 @@
 # takie-o
- Interactive, online SQL tutorial.
+
+Interactive, online SQL tutorial.
