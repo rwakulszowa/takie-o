@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "cd packages/app && pnpm start"
+  },
   "devDependencies": {
     "prettier": "^2.8.7"
   }
