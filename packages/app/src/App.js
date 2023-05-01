@@ -1,4 +1,4 @@
-import { calc } from "../../lib";
+import { Database } from "../../lib";
 import React, { useState, useEffect } from "react";
 import initSqlJs from "sql.js";
 import { Editor } from "./Editor";
@@ -12,7 +12,7 @@ export function App() {
   async function initSql() {
     try {
       const SQL = await initSqlJs({ locateFile: () => sqlWasm });
-      setDb(new SQL.Database());
+      setDb(new Database(new SQL.Database()));
     } catch (err) {
       setError(err);
     }

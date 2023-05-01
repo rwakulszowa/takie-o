@@ -5,9 +5,9 @@ import _ from "lodash";
  * Not a 1:1 mapping to SQLite names.
  */
 export enum DbType {
-  Int,
-  Float,
-  String,
+  Int = "Int",
+  Float = "Float",
+  String = "String",
 }
 
 function dbTypeToSqlite(dbType: DbType): string {
@@ -18,6 +18,33 @@ function dbTypeToSqlite(dbType: DbType): string {
       return "float";
     case DbType.String:
       return "char";
+  }
+}
+
+/**
+ * Instance of a database.
+ */
+export class Database {
+  private client: any;
+
+  constructor(client: any) {
+    this.client = client;
+  }
+
+  tables(): Array<DbTable> {
+    return this.runQuery(`
+SELECT 
+    name, sql
+FROM 
+    sqlite_schema
+WHERE 
+    type ='table' AND 
+    name NOT LIKE 'sqlite_%';`);
+  }
+
+  runQuery(query: string): Array<DbTable> {
+    const results = this.client.exec(query);
+    return results.map(({ columns, values }) => new DataTable(columns, values));
   }
 }
 
