@@ -1,5 +1,27 @@
 import { describe, expect, test } from "@jest/globals";
-import { DbTable, DbType, DataTable } from "./db";
+import { DbTable, DbType, DataTable, Database } from "./db";
+
+describe("Database", () => {
+  test("tables", () => {
+    const client = {
+      exec: () => [
+        {
+          columns: ["name", "sql"],
+          values: [
+            ["test", "CREATE TABLE test (ID integer primary key, Name char)"],
+          ],
+        },
+      ],
+    };
+    const db = new Database(client);
+    expect(db.tables()).toEqual([
+      new DbTable("test", [
+        { name: "ID", type: DbType.Int },
+        { name: "Name", type: DbType.String },
+      ]),
+    ]);
+  });
+});
 
 describe("DbTable", () => {
   const dbTable = new DbTable("tableA", [

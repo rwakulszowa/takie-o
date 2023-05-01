@@ -21,6 +21,20 @@ function dbTypeToSqlite(dbType: DbType): string {
   }
 }
 
+function sqliteTypeToDbType(sqliteType: string): DbType {
+  switch (sqliteType) {
+    case "int":
+      return DbType.Int;
+    case "integer":
+      return DbType.Int;
+    case "float":
+      return DbType.Float;
+    case "char":
+      return DbType.String;
+  }
+  throw new Error(`Unknown type: ${sqliteType}`);
+}
+
 /**
  * Instance of a database.
  */
@@ -31,20 +45,41 @@ export class Database {
     this.client = client;
   }
 
+  runQuery(query: string): Array<DataTable> {
+    const results: any[] = this.client.exec(query);
+    return results.map((r) => new DataTable(r.columns, r.values));
+  }
+
   tables(): Array<DbTable> {
-    return this.runQuery(`
+    const result = this.runQuery(`
 SELECT 
     name, sql
 FROM 
     sqlite_schema
 WHERE 
     type ='table' AND 
-    name NOT LIKE 'sqlite_%';`);
+    name NOT LIKE 'sqlite_%';`)[0];
+
+    return result.rows.map(
+      ([name, sql]) => new DbTable(name, this.parseCreateTableSql(sql))
+    );
   }
 
-  runQuery(query: string): Array<DbTable> {
-    const results = this.client.exec(query);
-    return results.map(({ columns, values }) => new DataTable(columns, values));
+  /**
+   * Parse table definition from a "CREATE TABLE A (ID integer, ...)" sql string.
+   */
+  private parseCreateTableSql(sql: string): { name: string; type: DbType }[] {
+    const columnDefs = /\((?<x>.*)\)/.exec(sql);
+    if (!columnDefs) {
+      return [];
+    }
+    const nameTypePairs = columnDefs
+      .groups!.x.split(", ")
+      .map((colExpr: string) => {
+        const [name, type] = colExpr.split(" ");
+        return { name, type: sqliteTypeToDbType(type) };
+      });
+    return nameTypePairs;
   }
 }
 
@@ -62,7 +97,7 @@ export class DbTable {
 
   createTableSql(): string {
     const columnsFragment = this.columns
-      .map(({ name, type }) => `${name} ${dbTypeToSqlite(type)}`)
+      .map((c) => `${c.name} ${dbTypeToSqlite(c.type)}`)
       .join(", ");
     return `CREATE TABLE ${this.name} (${columnsFragment});`;
   }
@@ -74,7 +109,7 @@ export class DbTable {
   insertValuesSql(values: DataTable): string {
     const cols = this.columns.map((c) => c.name);
 
-    const processValue = (value, index) => {
+    const processValue = (value: any, index: number) => {
       const dbType = this.columns[index].type;
       if (dbType === DbType.String) {
         return `"${value}"`;

@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
+    "check": "tsc --noEmit",
     "test": "jest"
   },
   "keywords": [],
@@ -11,8 +12,9 @@
   "license": "ISC",
   "devDependencies": {
     "@jest/globals": "^29.5.0",
-    "@types/jest": "^29.5.1",
-    "jest": "^29.5.0",
+    "@types/jest": "v29.0.3",
+    "@types/lodash": "^4.14.194",
+    "jest": "29.1.0",
     "ts-jest": "^29.1.0",
     "typescript": "^5.0.4"
   },
