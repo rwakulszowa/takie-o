@@ -35,11 +35,15 @@ export function Editor({ db }) {
   }
 
   return (
-    <div>
-      <EditorInput onSubmit={handleSubmit} />
-      <Schema tables={schema || []} />
-      <pre>{error}</pre>
-      {results && <Table label="result" data={results} />}
+    <div className="w-full h-full flex flex-row">
+      <div className="flex-1">
+        <EditorInput onSubmit={handleSubmit} />
+      </div>
+      {/* <Schema tables={schema || []} /> */}
+      {/* <pre>{error}</pre> */}
+      <div className="flex-1">
+        {results && <Table label="result" data={results} />}
+      </div>
     </div>
   );
 }
@@ -56,9 +60,15 @@ function EditorInput({ onSubmit }) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <textarea name="script" placeholder="select * from ..."></textarea>
-      <button type="submit">Execute</button>
+    <form onSubmit={handleSubmit} className="w-full h-full flex flex-row">
+      <textarea
+        name="script"
+        className="flex-1"
+        placeholder="select * from ..."
+      ></textarea>
+      <button type="submit" className="flex-none">
+        Execute
+      </button>
     </form>
   );
 }
