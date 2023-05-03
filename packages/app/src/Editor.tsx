@@ -6,8 +6,8 @@ import { Schema } from "./Schema";
 import { Table } from "./Table";
 
 export function Editor({ db }) {
-  const [error, setError] = useState(null);
-  const [results, setResults] = useState<DataTable>(null);
+  const [error, setError] = useState<string>("");
+  const [results, setResults] = useState<DataTable[]>([]);
   const [schema, setSchema] = useState<DbTable[]>();
 
   useEffect(() => {
@@ -30,8 +30,11 @@ export function Editor({ db }) {
   }, []);
 
   function handleSubmit(input: string) {
-    const result = db.runQuery(input)[0];
-    setResults(result);
+    try {
+      setResults(db.runQuery(input));
+    } catch (error) {
+      setError(error.toString());
+    }
   }
 
   return (
@@ -39,10 +42,10 @@ export function Editor({ db }) {
       <div className="flex-1">
         <EditorInput onSubmit={handleSubmit} />
       </div>
+      {/* Schema is not displayed yet. Pending layout changes. */}
       {/* <Schema tables={schema || []} /> */}
-      {/* <pre>{error}</pre> */}
       <div className="flex-1">
-        {results && <Table label="result" data={results} />}
+        <EditorOutput error={error} results={results} />
       </div>
     </div>
   );
@@ -70,5 +73,25 @@ function EditorInput({ onSubmit }) {
         Execute
       </button>
     </form>
+  );
+}
+
+function EditorOutput({
+  results,
+  error,
+}: {
+  results: DataTable[];
+  error: string;
+}) {
+  return (
+    <div className="w-full h-full">
+      {error ? (
+        <pre>{error}</pre>
+      ) : results ? (
+        results.map((result, i) => (
+          <Table key={i} label={i.toString()} data={result} />
+        ))
+      ) : null}
+    </div>
   );
 }
