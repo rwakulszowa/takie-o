@@ -2,8 +2,8 @@ import React from "react";
 
 import { useEffect, useState } from "react";
 import { DataTable, DbTable, DbType } from "../../lib/src";
-import { Schema } from "./Schema";
 import { Table } from "./Table";
+const PlayIcon = new URL("icons/play.svg", import.meta.url);
 
 export function Editor({ db }) {
   const [error, setError] = useState<string>("");
@@ -70,7 +70,12 @@ function EditorInput({ onSubmit }) {
         placeholder="select * from ..."
       ></textarea>
       <button type="submit" className="flex-none">
-        Execute
+        <img
+          className="w-8"
+          title="Evaluate the input."
+          src={PlayIcon as any}
+          alt="Evaluate"
+        />
       </button>
     </form>
   );
