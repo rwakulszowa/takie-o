@@ -3,7 +3,8 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { DataTable, DbTable, DbType } from "../../lib/src";
 import { Table } from "./Table";
-const PlayIcon = new URL("icons/play.svg", import.meta.url);
+
+import PlaySvg from "bundle-text:./icons/play.svg";
 
 export function Editor({ db }) {
   const [error, setError] = useState<string>("");
@@ -32,14 +33,16 @@ export function Editor({ db }) {
   function handleSubmit(input: string) {
     try {
       setResults(db.runQuery(input));
+      setError(null);
     } catch (error) {
+      setResults(null);
       setError(error.toString());
     }
   }
 
   return (
-    <div className="w-full h-full flex flex-row">
-      <div className="flex-1">
+    <div className="w-full h-full flex flex-row rounded-md p-4 bg-base-200">
+      <div className="flex-1 p-1 border border-neutral rounded">
         <EditorInput onSubmit={handleSubmit} />
       </div>
       {/* Schema is not displayed yet. Pending layout changes. */}
@@ -63,18 +66,19 @@ function EditorInput({ onSubmit }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="w-full h-full flex flex-row">
+    <form
+      onSubmit={handleSubmit}
+      className="w-full h-full flex flex-row bg-base-100 text-base-content p-2"
+    >
       <textarea
         name="script"
-        className="flex-1"
+        className="flex-1 resize-none"
         placeholder="select * from ..."
       ></textarea>
       <button type="submit" className="flex-none">
-        <img
-          className="w-8"
-          title="Evaluate the input."
-          src={PlayIcon as any}
-          alt="Evaluate"
+        <div
+          className="w-8 h-8"
+          dangerouslySetInnerHTML={{ __html: PlaySvg }}
         />
       </button>
     </form>
@@ -89,12 +93,16 @@ function EditorOutput({
   error: string;
 }) {
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full bg-base-200 text-base-content overflow-y-auto">
       {error ? (
         <pre>{error}</pre>
       ) : results ? (
         results.map((result, i) => (
-          <Table key={i} label={i.toString()} data={result} />
+          <Table
+            key={i}
+            label={results.length > 1 ? `Result ${i}` : null}
+            data={result}
+          />
         ))
       ) : null}
     </div>

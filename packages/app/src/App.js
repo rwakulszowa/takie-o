@@ -22,7 +22,15 @@ export function App() {
     initSql();
   }, []);
 
-  if (error) return <pre>{error.toString()}</pre>;
-  else if (!db) return <pre>Loading...</pre>;
-  else return <Editor db={db} />;
+  return (
+    <div className="p-4 w-full h-full overflow-none bg-neutral text-neutral-content">
+      {error ? (
+        <pre>{error.toString()}</pre>
+      ) : db ? (
+        <Editor db={db} />
+      ) : (
+        <pre>Loading...</pre>
+      )}
+    </div>
+  );
 }

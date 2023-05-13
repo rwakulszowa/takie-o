@@ -9,9 +9,9 @@ export type Props = {
 
 export function Table({ label, data }: Props) {
   return (
-    <div>
-      <p>{label}</p>
-      <table>
+    <div className="overflow-x-auto p-4">
+      {label && <p className="text-xs text-base-content/75">{label}</p>}
+      <table className="table w-full">
         <thead>
           <tr>
             {data.columns.map((col, i) => (
