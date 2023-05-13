@@ -4,3 +4,23 @@ import { App } from "./App";
 const container = document.getElementById("app");
 const root = createRoot(container);
 root.render(<App />);
+
+// Code highlighting setup.
+codeInput.registerTemplate(
+  "syntax-highlighted",
+  codeInput.templates.custom(
+    function (resultElement) {
+      const parens = new Set("()");
+      resultElement.innerHTML = resultElement.innerText
+        .split("")
+        .map((char) =>
+          parens.has(char) ? `<span class="editor-paren">${char}</span>` : char
+        )
+        .join("");
+    },
+    true,
+    true,
+    false,
+    []
+  )
+);

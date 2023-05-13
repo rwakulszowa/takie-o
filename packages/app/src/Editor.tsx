@@ -70,11 +70,13 @@ function EditorInput({ onSubmit }) {
       onSubmit={handleSubmit}
       className="w-full h-full flex flex-row bg-base-100 text-base-content p-2"
     >
-      <textarea
-        name="script"
-        className="flex-1 resize-none"
-        placeholder="select * from ..."
-      ></textarea>
+      <div className="flex-1 resize-none">
+        <code-input
+          name="script"
+          lang="sql"
+          placeholder="select * from ..."
+        ></code-input>
+      </div>
       <button type="submit" className="flex-none">
         <div
           className="w-8 h-8"

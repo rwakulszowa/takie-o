@@ -1,0 +1,10 @@
+/*
+ Overwrite default code-input fixed height.
+*/
+code-input[name="script"] {
+  height: 100%;
+}
+
+.editor-paren {
+  color: salmon;
+}

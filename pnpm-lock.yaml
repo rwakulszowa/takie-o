@@ -10,6 +10,9 @@ importers:
 
   packages/app:
     dependencies:
+      code-input:
+        specifier: github:WebCoder49/code-input
+        version: github.com/WebCoder49/code-input/f6a4d5093402ad763d4b79f6b24d6320304590f8
       lib:
         specifier: workspace:^
         version: link:../lib
@@ -4224,3 +4227,9 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  github.com/WebCoder49/code-input/f6a4d5093402ad763d4b79f6b24d6320304590f8:
+    resolution: {tarball: https://codeload.github.com/WebCoder49/code-input/tar.gz/f6a4d5093402ad763d4b79f6b24d6320304590f8}
+    name: code-input
+    version: 0.0.0
+    dev: false
