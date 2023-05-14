@@ -1,9 +1,12 @@
 import React from "react";
 
 import { useEffect, useState } from "react";
+import { format } from "sql-formatter";
+
 import { DataTable, DbTable, DbType } from "../../lib/src";
 import { Table } from "./Table";
 
+import BrushSvg from "bundle-text:./icons/brush.svg";
 import PlaySvg from "bundle-text:./icons/play.svg";
 
 export function Editor({ db }) {
@@ -65,8 +68,20 @@ function EditorInput({ onSubmit }) {
     onSubmit(formValues.script);
   }
 
+  function fix() {
+    const userInput: any = document.querySelector(
+      "#editor-input-form textarea"
+    );
+    userInput.value = format(userInput.value, {
+      keywordCase: "lower",
+      tabWidth: 2,
+    });
+    userInput.dispatchEvent(new Event("input"));
+  }
+
   return (
     <form
+      id="editor-input-form"
       onSubmit={handleSubmit}
       className="w-full h-full flex flex-row bg-base-100 text-base-content p-2"
     >
@@ -77,12 +92,20 @@ function EditorInput({ onSubmit }) {
           placeholder="select * from ..."
         ></code-input>
       </div>
-      <button type="submit" className="flex-none">
-        <div
-          className="w-8 h-8"
-          dangerouslySetInnerHTML={{ __html: PlaySvg }}
-        />
-      </button>
+      <div className="flex-none flex flex-col gap-4">
+        <button type="submit">
+          <div
+            className="w-6 h-6"
+            dangerouslySetInnerHTML={{ __html: PlaySvg }}
+          />
+        </button>
+        <button type="button" onClick={fix}>
+          <div
+            className="w-6 h-6"
+            dangerouslySetInnerHTML={{ __html: BrushSvg }}
+          />
+        </button>
+      </div>
     </form>
   );
 }
