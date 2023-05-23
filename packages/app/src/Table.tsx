@@ -15,7 +15,10 @@ export function Table({ label, data }: Props) {
         <thead>
           <tr>
             {data.columns.map((col, i) => (
-              <th key={i}>{col}</th>
+              // Relative layout disables weird DaisyUI sticky th style.
+              <th key={i} style={{ position: "relative" }}>
+                {col}
+              </th>
             ))}
           </tr>
         </thead>

@@ -77,7 +77,7 @@ export function Editor({ db }) {
       </div>
       {/* Schema is not displayed yet. Pending layout changes. */}
       {/* <Schema tables={schema || []} /> */}
-      <div className="flex-1">
+      <div className="flex-1 overflow-x-auto">
         <EditorOutput error={error} results={results} />
       </div>
     </div>
