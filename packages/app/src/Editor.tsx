@@ -8,6 +8,7 @@ import { Table } from "./Table";
 
 import BrushSvg from "bundle-text:./icons/brush.svg";
 import PlaySvg from "bundle-text:./icons/play.svg";
+import HealthWorkers from "../data/health_workers.json";
 
 export function Editor({ db }) {
   const [error, setError] = useState<string>("");
@@ -15,21 +16,47 @@ export function Editor({ db }) {
   const [schema, setSchema] = useState<DbTable[]>();
 
   useEffect(() => {
-    // Generate some data right away.
-    const table = new DbTable("A", [
-      { name: "a", type: DbType.Int },
-      { name: "b", type: DbType.String },
+    // Insert health workers data.
+
+    // Main values table.
+    const valuesTable = new DbTable("health_workers", [
+      { name: "time", type: DbType.Int },
+      { name: "geo", type: DbType.String },
+      { name: "unit", type: DbType.String },
+      { name: "isco08", type: DbType.String },
+      { name: "freq", type: DbType.String },
+      { name: "value", type: DbType.Float },
     ]);
-    db.runQuery(table.createTableSql());
+
+    db.runQuery(valuesTable.createTableSql());
     const values = new DataTable(
-      table.columns.map((c) => c.name),
-      [
-        ["1", "x"],
-        ["2", "y"],
-        ["3", "z"],
-      ]
+      valuesTable.columns.map((c) => c.name),
+      HealthWorkers.values.map(([dims, value]) => [
+        ...Object.values(dims),
+        value,
+      ])
     );
-    db.runQuery(table.insertValuesSql(values));
+    db.runQuery(valuesTable.insertValuesSql(values));
+
+    // Metadata tables.
+    // Contain descriptions of IDs used in the main table.
+    for (const [key, data] of Object.entries(HealthWorkers)) {
+      // Already handled above.
+      if (key !== "values") {
+        if (data.length > 0) {
+          const keys = Object.keys(data[0]);
+          const values = data.map(Object.values);
+          const table = new DbTable(
+            key,
+            keys.map((k) => ({ name: k, type: DbType.String }))
+          );
+          const dataTable = new DataTable(keys, values);
+          db.runQuery(table.createTableSql());
+          db.runQuery(table.insertValuesSql(dataTable));
+        }
+      }
+    }
+
     setSchema(db.tables());
   }, []);
 
