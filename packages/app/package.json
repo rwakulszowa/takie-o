@@ -6,7 +6,7 @@
   "scripts": {
     "check": "tsc --noEmit",
     "start": "parcel",
-    "build": "parcel build"
+    "build": "parcel build --no-optimize"
   },
   "keywords": [],
   "author": "",
