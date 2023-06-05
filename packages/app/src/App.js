@@ -23,7 +23,7 @@ export function App() {
   }, []);
 
   return (
-    <div className="p-4 w-full h-full overflow-none bg-neutral text-neutral-content">
+    <div className="w-full h-full overflow-none bg-neutral text-neutral-content">
       {error ? (
         <pre>{error.toString()}</pre>
       ) : db ? (

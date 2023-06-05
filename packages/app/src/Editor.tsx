@@ -6,14 +6,21 @@ import { format } from "sql-formatter";
 import { DataTable, DbTable, DbType } from "../../lib/src";
 import { Table } from "./Table";
 
+import BookSvg from "bundle-text:./icons/book.svg";
 import BrushSvg from "bundle-text:./icons/brush.svg";
 import PlaySvg from "bundle-text:./icons/play.svg";
 import HealthWorkers from "../data/health_workers.json";
+import { Schema } from "./Schema";
+
+type Layout = {
+  docs: boolean;
+};
 
 export function Editor({ db }) {
   const [error, setError] = useState<string>("");
   const [results, setResults] = useState<DataTable[]>([]);
   const [schema, setSchema] = useState<DbTable[]>();
+  const [layout, setLayout] = useState<Layout>({ docs: false });
 
   useEffect(() => {
     // Insert health workers data.
@@ -71,15 +78,37 @@ export function Editor({ db }) {
   }
 
   return (
-    <div className="w-full h-full flex flex-row rounded-md p-4 bg-base-200">
+    <div className="w-full h-full flex flex-row p-4 bg-base-200 text-base-content">
+      <div className="flex-none border-r-2 pr-2">
+        <EditorControls
+          onClickDocs={() => {
+            setLayout({ ...layout, docs: !layout.docs });
+          }}
+        />
+      </div>
+      <div className={`flex-1 overflow-y-auto ${layout.docs ? "" : "hidden"}`}>
+        <Schema tables={schema || []} />
+      </div>
       <div className="flex-1 p-1 border border-neutral rounded">
         <EditorInput onSubmit={handleSubmit} />
       </div>
-      {/* Schema is not displayed yet. Pending layout changes. */}
-      {/* <Schema tables={schema || []} /> */}
       <div className="flex-1 overflow-x-auto">
         <EditorOutput error={error} results={results} />
       </div>
+    </div>
+  );
+}
+
+function EditorControls({ onClickDocs }) {
+  return (
+    <div className="flex flex-col gap-4">
+      <button type="button" onClick={onClickDocs}>
+        <div
+          title="Toggle documentation."
+          className="w-6 h-6"
+          dangerouslySetInnerHTML={{ __html: BookSvg }}
+        />
+      </button>
     </div>
   );
 }
@@ -110,7 +139,7 @@ function EditorInput({ onSubmit }) {
     <form
       id="editor-input-form"
       onSubmit={handleSubmit}
-      className="w-full h-full flex flex-row bg-base-100 text-base-content p-2"
+      className="w-full h-full flex flex-row bg-base-100 p-2"
     >
       <div className="flex-1 resize-none">
         <code-input
@@ -122,12 +151,14 @@ function EditorInput({ onSubmit }) {
       <div className="flex-none flex flex-col gap-4">
         <button type="submit">
           <div
+            title="Execute the query."
             className="w-6 h-6"
             dangerouslySetInnerHTML={{ __html: PlaySvg }}
           />
         </button>
         <button type="button" onClick={fix}>
           <div
+            title="Prettify input."
             className="w-6 h-6"
             dangerouslySetInnerHTML={{ __html: BrushSvg }}
           />
