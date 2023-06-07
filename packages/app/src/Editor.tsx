@@ -5,22 +5,29 @@ import { format } from "sql-formatter";
 
 import { DataTable, DbTable, DbType } from "../../lib/src";
 import { Table } from "./Table";
+import { Chart } from "./Chart";
 
 import BookSvg from "bundle-text:./icons/book.svg";
 import BrushSvg from "bundle-text:./icons/brush.svg";
 import PlaySvg from "bundle-text:./icons/play.svg";
+import TableSvg from "bundle-text:./icons/table.svg";
+import ChartSvg from "bundle-text:./icons/chart.svg";
 import HealthWorkers from "../data/health_workers.json";
 import { Schema } from "./Schema";
 
 type Layout = {
   docs: boolean;
+  output: "Table" | "Chart";
 };
 
 export function Editor({ db }) {
   const [error, setError] = useState<string>("");
   const [results, setResults] = useState<DataTable[]>([]);
   const [schema, setSchema] = useState<DbTable[]>();
-  const [layout, setLayout] = useState<Layout>({ docs: false });
+  const [layout, setLayout] = useState<Layout>({
+    docs: false,
+    output: "Table",
+  });
 
   useEffect(() => {
     // Insert health workers data.
@@ -93,7 +100,17 @@ export function Editor({ db }) {
         <EditorInput onSubmit={handleSubmit} />
       </div>
       <div className="flex-1 overflow-x-auto">
-        <EditorOutput error={error} results={results} />
+        <EditorOutput
+          error={error}
+          results={results}
+          output={layout.output}
+          onClickTable={() => {
+            setLayout({ ...layout, output: "Table" });
+          }}
+          onClickChart={() => {
+            setLayout({ ...layout, output: "Chart" });
+          }}
+        />
       </div>
     </div>
   );
@@ -171,23 +188,55 @@ function EditorInput({ onSubmit }) {
 function EditorOutput({
   results,
   error,
+  output,
+  onClickTable,
+  onClickChart,
 }: {
   results: DataTable[];
   error: string;
+  output: "Chart" | "Table";
+  onClickTable: () => void;
+  onClickChart: () => void;
 }) {
   return (
-    <div className="w-full h-full bg-base-200 text-base-content overflow-y-auto">
-      {error ? (
-        <pre>{error}</pre>
-      ) : results ? (
-        results.map((result, i) => (
-          <Table
-            key={i}
-            label={results.length > 1 ? `Result ${i}` : null}
-            data={result}
+    <div className="w-full h-full flex flex-row bg-base-200">
+      <div className="flex-1 overflow-y-auto">
+        {error ? (
+          <pre>{error}</pre>
+        ) : results ? (
+          output === "Table" ? (
+            results.map((result, i) => (
+              <Table
+                key={i}
+                label={results.length > 1 ? `Result ${i}` : null}
+                data={result}
+              />
+            ))
+          ) : results.map((result, i) => (
+            <Chart
+              key={i}
+              label={results.length > 1 ? `Result ${i}` : null}
+              data={result}
+            />
+          ))
+        ) : null}
+      </div>
+      <div className="flex-none flex flex-col gap-4 pl-2">
+        <button type="button" onClick={onClickTable}>
+          <div
+            title="Display as a table."
+            className="w-6 h-6"
+            dangerouslySetInnerHTML={{ __html: TableSvg }}
           />
-        ))
-      ) : null}
+        </button>
+        <button type="button" onClick={onClickChart}>
+          <div
+            title="Display as a chart."
+            className="w-6 h-6"
+            dangerouslySetInnerHTML={{ __html: ChartSvg }}
+          />
+        </button>
+      </div>
     </div>
   );
 }
